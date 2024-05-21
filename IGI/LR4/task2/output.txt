@@ -1,0 +1,12 @@
+Number of sentences: 9
+Number of narrative sentences: 2
+Number of interrogative sentences: 2
+Number of imperative sentences: 3
+Average sentence length: 2.888888888888889
+Average word length: 3.8076923076923075
+Number of smileys: 1
+Words containing characters 'f' to 'y': ['This', 'is', 'sample', 'text', 'It', 'contains', 'multiple', 'sentences', 'Isn', 't', 'it', 'interesting', 'Yes', 'it', 'is', 'Let', 's', 'analyze', 'it', 'Shall', 'we', 'USD']
+Extracted prices: ['23.78 USD']
+Number of words with length less than 7: 21
+Shortest word ending with 'a': a
+Words sorted by length in descending order: ['interesting', 'sentences', 'contains', 'multiple', 'analyze', 'sample', 'Shall', 'This', 'text', '2023', 'Isn', 'Yes', 'Let', 'USD', 'is', 'It', 'it', 'it', 'is', 'it', 'we', '23', '78', 'a', 't', 's']
