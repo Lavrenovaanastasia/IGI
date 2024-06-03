@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    
+<div class="navbar">    
+    <a href="{% url 'home' %}">Главная</a>
+    <a href="{% url 'about' %}">Прo нас</a>
+    <a href="{% url 'news' %}">Новости</a>
+    <a href="{% url 'terms' %}">Вопросы и ответы</a>
+    <a href="{% url 'contacts' %}">Кантакты</a>
+    <a href="{% url 'vacancies' %}">Вакансии</a>
+    <a href="{% url 'reviews' %}">Отзывы</a>
+    <a href="{% url 'promocodes' %}">Промокоды</a>
+    <a href="{% url 'cars' %}">Услуги</a>
+    <a href="{% url 'catigories' %}">Категории</a>
+
+    {% if user.is_authenticated %}
+        {% if is_super %}
+            <a href="{% url 'suppliers' %}">Поставщики</a>
+            <a href="{% url 'departments' %}">Филиалы</a>
+            <a href="{% url 'department_revenue_chart' %}">Графики выручки по филиалам</a>
+            <a href="{% url 'pribor_stat' %}">Статистика по услугам</a>
+            <a href="{% url 'clients' %}">Статистика клиентов</a>
+            <a href="{% url 'sales' %}">Продаж</a>
+            <a href="{% url 'logout' %}">Выйти</a>
+        {% elif user.is_staff %}
+            <a href="{% url 'suppliers' %}">Поставщики</a>
+            <a href="{% url 'orders' %}">Заказы</a>
+            <a href="{% url 'logout' %}">Выйти</a>
+        {% else %}
+            <a href="{% url 'departments' %}">Филиалы</a>
+            <a href="{% url 'orders_list' user.id  %}">Мои заказы</a>
+            <a href="{% url 'deteil_facts' %}">Факты</a>
+            <a href="{% url 'logout' %}">Выйти</a>
+        {% endif %}
+    {% else %}
+        <a href="{% url 'login' %}">Войти</a>
+        <a href="{% url 'register' %}">Регистрация</a>
+    {% endif %}
+</div>
+<body>
+
+<center><img src="/media/images/DIAG.png"></center>
+
+</body>
+</html>
