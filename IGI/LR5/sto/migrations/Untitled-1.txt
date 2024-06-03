@@ -1,0 +1,6 @@
+-- database: d:\2kyrs\igi_lab5-main\CarserviceApp2.0\CarserviceApp\CarserviceApp\CarserviceApp\db.sqlite3
+
+-- Чтобы выполнить весь файл, нажмите кнопку ▷ в правом верхнем углу окна.
+
+CREATE TABLE `sto_cartype` ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "description" text NOT NULL, "photo" varchar(100) NOT NULL, "user_id" bigint NOT NULL UNIQUE REFERENCES "sto_user" ("id") DEFERRABLE INITIALLY DEFERRED);
+INSERT INTO `sto_cartype` SELECT * FROM `sto_contact`;
