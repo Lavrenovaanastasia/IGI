@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Orders</title>
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .navbar {
+            background-color: #333;
+            background-color: #ccc;
+            overflow: hidden;
+        }
+        
+        .navbar a {
+            float: left;
+            display: block;
+            color: black;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+        }
+        
+        .navbar a:hover {
+            background-color: #555;
+        }
+        
+        h1 {
+            font-size: 24px;
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        div {
+            margin: 20px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+    </style>
+</head>
+
+<div class="navbar">    
+    <a href="{% url 'home' %}">Главная</a>
+    <a href="{% url 'about' %}">Прo нас</a>
+    <a href="{% url 'news' %}">Новости</a>
+    <a href="{% url 'terms' %}">Вопросы и ответы</a>
+    <a href="{% url 'contacts' %}">Кантакты</a>
+    <a href="{% url 'vacancies' %}">Вакансии</a>
+    <a href="{% url 'reviews' %}">Отзывы</a>
+    <a href="{% url 'promocodes' %}">Промокоды</a>
+    <a href="{% url 'cars' %}">Услуги</a>
+    <a href="{% url 'catigories' %}">Категории</a>
+
+    {% if user.is_authenticated %}
+        {% if is_super %}
+            <a href="{% url 'suppliers' %}">Поставщики</a>
+            <a href="{% url 'departments' %}">Филиалы</a>
+            <a href="{% url 'department_revenue_chart' %}">Графики выручки по филиалам</a>
+            <a href="{% url 'pribor_stat' %}">Статистика по услугам</a>
+            <a href="{% url 'clients' %}">Статистика клиентов</a>
+            <a href="{% url 'sales' %}">Продаж</a>
+            <a href="{% url 'logout' %}">Выйти</a>
+        {% elif user.is_staff %}
+            <a href="{% url 'suppliers' %}">Поставщики</a>
+            <a href="{% url 'orders' %}">Заказы</a>
+            <a href="{% url 'logout' %}">Выйти</a>
+        {% else %}
+            <a href="{% url 'departments' %}">Филиалы</a>
+            <a href="{% url 'orders_list' user.id  %}">Мои заказы</a>
+            <a href="{% url 'deteil_facts' %}">Факты</a>
+            <a href="{% url 'logout' %}">Выйти</a>
+        {% endif %}
+    {% else %}
+        <a href="{% url 'login' %}">Войти</a>
+        <a href="{% url 'register' %}">Регистрация</a>
+    {% endif %}
+</div>
+<body>
+    <a href="{% url 'home' %}">Главная</a>
+    <a href="{% url 'cars' %}">Назад к услугам</a>
+
+    <h1>Заказ #{{order.id}}</h1>
+    <table border="1">
+            <p>Услуга: {{ order.car }}</p>
+            <p>Дата: {{ order.date|date:"d.m.Y" }}</p> 
+            <p>Время: {{ order.date|time:"H:i" }}</p>
+            <p>Филиалы: {{ order.department }}</p>
+            <p>Кол-во: {{ order.quantity }}</p>
+            <p>Стоимоть: {{ order.price_prom }}</p>
+        </tr>
+    </table>
+
+    {% if not order.is_canceled %}
+        <form method="post" action="{% url 'order_cancel' pk=order.user.id jk=order.id %}">
+            {% csrf_token %}
+            <button type="submit">Отменить заказ</button>
+        </form>
+    {% else %}
+        <p>Этот заказ был отменён</p>
+    {% endif %}
+    
+</body>
+</html>
