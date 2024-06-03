@@ -1,0 +1,96 @@
+"""
+URL configuration for CarserviceApp project.
+
+The `urlpatterns` list routes URLs to views. For more information please see:
+    https://docs.djangoproject.com/en/5.0/topics/http/urls/
+Examples:
+Function views
+    1. Add an import:  from my_app import views
+    2. Add a URL to urlpatterns:  path('', views.home, name='home')
+Class-based views
+    1. Add an import:  from other_app.views import Home
+    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
+Including another URLconf
+    1. Import the include() function: from django.urls import include, path
+    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
+"""
+from django.contrib import admin
+from django.urls import path, re_path, include
+from sto import views, statistics
+from django.conf.urls.static import static
+from django.conf import settings
+
+
+
+user_patterns = [
+    re_path(r'orders', views.UserOrdersListView.as_view(), name='orders_list'),
+    re_path(r'order/(?P<jk>\d+)', views.UserOrderView.as_view(), name='user_order'),
+]
+
+urlpatterns = [
+    path('', views.home, name='home'),
+
+    path('admin/', admin.site.urls),
+    path('register/', views.UserRegistrationView.as_view(), name="register"),
+    path('login/', views.UserLoginView.as_view(), name="login"),
+    path('logout/', views.UserLogoutView.as_view(), name='logout'),
+    path('about/', views.about_company, name='about'),
+    path('news/', views.news, name='news'),
+    path('faqs/', views.faqs, name='terms'),
+
+    path('contacts/', views.contacts, name='contacts'),
+    path('contacts/new/', views.ContactCreateView.as_view(), name='contact_create'),
+    path('contacts/<int:pk>/edit/', views.ContactUpdateView.as_view(), name='contact_edit'),
+    path('contacts/<int:pk>/delete/', views.ContactDeleteView.as_view(), name='contact_delete'),
+    
+
+
+    path('privacy-policy', views.privacy_policy, name='privacy_policy'),
+    path('vacancies/', views.vacancies, name='vacancies'),
+    path('reviews/', views.reviews, name='reviews'),
+    path('review/create/', views.ReviewCreateView.as_view(), name='add_review'),
+    path('review/<int:review_id>/edit/', views.ReviewEditView.as_view(), name='edit_review'),
+    path('review/<int:review_id>/delete/', views.ReviewDeleteView.as_view(), name='delete_review'),
+    path('promocodes/', views.promocodes, name="promocodes"),
+    
+    path('cars/', views.CarsListView.as_view(), name='cars'),
+    path('cars/<int:pk>/', views.CarsDetailView.as_view(), name='car_detail'), 
+    path('cars/new/', views.CarCreateView.as_view(), name='car_create'),
+    path('cars/<int:pk>/edit/',views.CarUpdateView.as_view(), name='car_edit'),   
+    path('cars/<int:pk>/delete/', views.CarDeleteView.as_view(), name='delete_med'),
+
+    path('catigories/', views.CatigoriesListView.as_view(), name='catigories'),
+
+    path('departments/', views.DepartmentInfo.as_view(), name='departments'),
+    path('departments/new/', views.DepartmentCreateView.as_view(), name='department_create'),
+    path('departments/<int:pk>/edit/',views.DepartmentUpdateView.as_view(), name='department_edit'),   
+    path('departments/<int:pk>/delete/', views.DepartmentDeleteView.as_view(), name='delete_dep'),
+
+    re_path(r'cars/(?P<pk>\d+)/order/create/$', views.OrderCreateView.as_view(), name='create_order'),
+    re_path(r'user/(?P<pk>\d+)/', include(user_patterns)),
+    path('order/<int:pk>/<int:jk>/', views.UserOrderView.as_view(), name='user_order'),
+    path('order/<int:pk>/<int:jk>/cancel/', views.OrderCancelView.as_view(), name='order_cancel'),
+    
+
+    path('suppliers/', views.SupplierListView.as_view(), name='suppliers'),
+    path('suppliers/new/', views.SupplierCreateView.as_view(), name='supplier_create'),
+    path('suppliers/<int:pk>/edit/', views.SupplierUpdateView.as_view(), name='supplier_edit'),
+    path('suppliers/<int:pk>/delete/', views.SupplierDeleteView.as_view(), name='supplier_delete'),
+
+    path('orders/', views.OrderListView.as_view(), name='orders'),
+
+    path('clients', statistics.clients, name='clients'),
+    path('pribor_stat', statistics.car, name='pribor_stat'),
+
+    path('sales', statistics.sales, name='sales'),
+    path('revenue_chart', statistics.department_revenue_chart, name='department_revenue_chart'),
+    path('diagramm', statistics.class_diagramm, name='model_diagramm'),
+    
+    path('api/deteil_facts/', views.MedicalFactsView.as_view(), name='deteil_facts'),
+   
+    ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
